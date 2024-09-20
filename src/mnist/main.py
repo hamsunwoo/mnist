@@ -8,8 +8,21 @@ app = FastAPI()
 
 
 @app.post("/files/")
-async def create_file(file: Annotated[bytes, File()]):
-    return {"file_size": len(file)}
+async def file_list():
+    conn = pymysql.connect(host="127.18.0.1",
+                                 user='mnist',
+                                 password='1234',
+                                 database='mnistdb',
+                                 port=int(53306),
+                                 cursorclass=pymysql.cursors.DictCursor)
+    with conn:
+        with conn.cursor() as cursor:
+            sql = "SELECT * FROM image_processing WHERE prediction_time IS NULL ORDER BY num"
+            cursor.execute(sql)
+            result = cursor.fetchall()
+            print(result)
+    
+    return result
 
 
 @app.post("/uploadfile/")
@@ -30,18 +43,6 @@ async def create_upload_file(file: UploadFile):
         f.write(img)
 
 
-    #파일 저장 경로 DB INSERT
-    #tablename : image_processing
-    #컬럼 정보 : num (초기 인서트, 자동 증가)
-    #컬럼 정보 : 파일이름, 파일경로, 요청시간(초기 인서트), 요청사용자(n00)
-    #컬럼 정보 : 예측모델, 예측결과, 예측시간(추후 업데이트)
-
-    connection = pymysql.connect(host="localhost",
-                                 user='mnist',
-                                 password='1234',
-                                 database='mnistdb',
-                                 port=int(53306),
-                                 cursorclass=pymysql.cursors.DictCursor)
     sql = "INSERT INTO image_processing(`file_name`, `file_path`, `request_time`, `request_user`) VALUES(%s,%s,%s,%s)"
 
     import jigeum.seoul
