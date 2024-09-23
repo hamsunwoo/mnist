@@ -1,7 +1,7 @@
 import pymysql.cursors
 
 def get_conn():
-    conn = pymysql.connect(host="127.0.0.1",
+    conn = pymysql.connect(host="127.18.0.1",
                             user='mnist',
                             password='1234',
                             database='mnistdb',

@@ -9,7 +9,7 @@ app = FastAPI()
 
 @app.post("/files/")
 async def file_list():
-    conn = pymysql.connect(host="127.0.0.1",
+    conn = pymysql.connect(host="127.18.0.1",
                                  user='mnist',
                                  password='1234',
                                  database='mnistdb',
