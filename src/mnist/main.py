@@ -92,5 +92,3 @@ def many(size: int = -1):
             result = cursor.fetchmany(size)
 
     return result
-
-print(__home__)
