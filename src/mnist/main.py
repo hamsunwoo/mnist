@@ -9,11 +9,11 @@ app = FastAPI()
 
 @app.post("/files/")
 async def file_list():
-    conn = pymysql.connect(host="mnist-mariadb",
+    conn = pymysql.connect(host=os.getenv('DB', '127.0.0.1'),
                                  user='mnist',
                                  password='1234',
                                  database='mnistdb',
-                                 port= 3306,
+                                 port= int(os.getenv('DB_PORT', 53306)),
                                  cursorclass=pymysql.cursors.DictCursor)
     with conn:
         with conn.cursor() as cursor:
@@ -32,7 +32,8 @@ async def create_upload_file(file: UploadFile):
     file_name = file.filename
     file_ext = file.content_type.split('/')[-1]
 
-    upload_dir = "/Users/seon-u/code/mnist/img"
+    #upload_dir = "/Users/seon-u/code/mnist/img"
+    upload_dir = "/home/ubuntu/images/n01"
     if not os.path.exists(upload_dir):
         os.makedirs(upload_dir)
 

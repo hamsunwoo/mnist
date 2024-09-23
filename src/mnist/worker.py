@@ -1,40 +1,46 @@
 import jigeum.seoul
 import requests
 import os
+from mnist.db import select, dml
+import random
+
+def get_job_img_task():
+    sql = """
+    SELECT num, file_name, file_path
+    FROM image_processing
+    WHERE prediction_result IS NULL
+    ORDER BY num -- 가장 오래된 요청
+    LIMIT 1 -- 하나씩
+    """
+    r = select(sql, 1)
+    return r[0]
+
+def prediction(file_path, num):
+    sql = """UPDATE image_processing
+    SET prediction_result=%s,
+        prediction_model='n01',
+        prediction_time=%s
+    WHERE num=%s
+    """
+    presult = random.randint(0, 9)
+    dml(sql, presult, jigeum.seoul.now(), num)
+
+    return presult
 
 def run():
     """image_processing 테이블을 읽어서 가장 오래된 요청 하나씩을 처리"""
   
     # STEP 1
     # image_processing 테이블의 prediction_result IS NULL 인 ROW 1 개 조회 - num 갖여오기
-
-    from mnist.db import get_conn
-    from random import randrange
-    conn = get_conn()
-
-    with conn:
-        with conn.cursor() as cursor:
-            sql = "SELECT * FROM image_processing WHERE prediction_result IS NULL ORDER BY num"
-            cursor.execute(sql)
-            result = cursor.fetchall() #모든 행을 가져옴
+    job = get_job_img_task()
+    num = job['num']
+    file_name = job['file_name']
+    file_path = job['file_path']
 
     # STEP 2
     # RANDOM 으로 0 ~ 9 중 하나 값을 prediction_result 컬럼에 업데이트
     # 동시에 prediction_model, prediction_time 도 업데이트
-
-            for i in result:
-                number = randrange(10)
-                num_id = i["num"]
-                sql = f"""
-                        UPDATE image_processing
-                        SET prediction_result = {number},
-                            prediction_model = {number},
-                            prediction_time = '{jigeum.seoul.now()}'
-                        WHERE num = {num_id}
-                        """
-                cursor.execute(sql)
-            
-            conn.commit()
+    presult = prediction(file_path, num)
     
     
     # STEP 3
