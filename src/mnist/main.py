@@ -31,8 +31,9 @@ async def create_upload_file(file: UploadFile):
     img = await file.read()
     file_name = file.filename
     file_ext = file.content_type.split('/')[-1]
-
-    upload_dir = "/Users/seon-u/code/mnist/img"
+    
+    #upload_dir = "/Users/seon-u/code/mnist/img"
+    upload_dir = "/home/ubuntu/images/n01"
     if not os.path.exists(upload_dir):
         os.makedirs(upload_dir)
 
@@ -91,3 +92,5 @@ def many(size: int = -1):
             result = cursor.fetchmany(size)
 
     return result
+
+print(__home__)

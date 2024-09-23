@@ -13,7 +13,11 @@ def get_job_img_task():
     LIMIT 1 -- 하나씩
     """
     r = select(sql, 1)
-    return r[0]
+
+    if len(r) > 0:
+        return r[0]
+    else:
+        return None
 
 def prediction(file_path, num):
     sql = """UPDATE image_processing
@@ -24,7 +28,7 @@ def prediction(file_path, num):
     """
     presult = random.randint(0, 9)
     dml(sql, presult, jigeum.seoul.now(), num)
-
+    
     return presult
 
 def run():
@@ -42,15 +46,17 @@ def run():
     # 동시에 prediction_model, prediction_time 도 업데이트
     presult = prediction(file_path, num)
     
+    print(jigeum.seoul.now()) 
     
     # STEP 3
     # LINE 으로 처리 결과 전송
+    send_line_noti(file_name, presult)
+
+def send_line_noti(file_name, presult):
     KEY = os.environ.get('API_TOKEN')
     url = "https://notify-api.line.me/api/notify"
     data = {"message": "성공적으로 저장했습니다!"}
-    headers = {"Authorization": f"Bearer {KEY}"}
+    headers = {"Authorization": f"{file_name} => {presult}"}
     response = requests.post(url, data=data, headers=headers)
 
-    print(jigeum.seoul.now())
-    print(response.text)
-    return True
+    print("SEND LINE NOTI")
