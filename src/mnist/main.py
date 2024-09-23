@@ -13,7 +13,7 @@ async def file_list():
                                  user='mnist',
                                  password='1234',
                                  database='mnistdb',
-                                 port=int(53306),
+                                 port= 3306,
                                  cursorclass=pymysql.cursors.DictCursor)
     with conn:
         with conn.cursor() as cursor:
