@@ -32,8 +32,7 @@ async def create_upload_file(file: UploadFile):
     file_name = file.filename
     file_ext = file.content_type.split('/')[-1]
 
-    #upload_dir = "/Users/seon-u/code/mnist/img"
-    upload_dir = "/home/ubuntu/images/n01"
+    upload_dir = "/Users/seon-u/code/mnist/img"
     if not os.path.exists(upload_dir):
         os.makedirs(upload_dir)
 
