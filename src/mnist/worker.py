@@ -61,7 +61,7 @@ def send_line_noti(file_name, presult):
     KEY = os.environ.get('API_TOKEN')
     url = "https://notify-api.line.me/api/notify"
     data = {"message": "성공적으로 저장했습니다!"}
-    headers = {"Authorization": f"{file_name} => {presult}"}
+    headers = {"Authorization": "Bearer " + KEY}
     response = requests.post(url, data=data, headers=headers)
-
+    print(response.text)
     print("SEND LINE NOTI")
