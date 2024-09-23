@@ -45,8 +45,6 @@ def run():
     headers = {"Authorization": f"Bearer {KEY}"}
     response = requests.post(url, data=data, headers=headers)
 
+    print(jigeum.seoul.now())
     print(response.text)
-    
     return True
-
-run()
