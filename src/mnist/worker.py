@@ -2,7 +2,7 @@ import jigeum.seoul
 import requests
 import os
 from mnist.db import select, dml
-from mnist.model.model import get_model, preprocess_image, predict_digit
+from mnist.model.model import get_model, get_model_name, preprocess_image, predict_digit
 
 def get_job_img_task():
     sql = """
@@ -27,8 +27,9 @@ def prediction(file_path, num):
     WHERE num=%s
     """
     presult = predict_digit(file_path)
-    model = get_model()
+    model = get_model_name()
     model_name = os.path.basename(model)
+    print(model_name)
     dml(sql, presult, model_name, jigeum.seoul.now(), num)
     
     return presult
@@ -67,3 +68,4 @@ def send_line_noti(file_name, presult):
     response = requests.post(url, data=data, headers=headers)
     print(response.text)
     print("SEND LINE NOTI")
+

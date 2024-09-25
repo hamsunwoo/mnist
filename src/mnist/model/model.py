@@ -12,6 +12,13 @@ def get_model():
     
     return model
 
+def get_model_name():
+    f= __file__
+    dir_name = os.path.dirname(f)
+    model_path = os.getenv('MODEL_PATH', os.path.join(dir_name, "mnist240924.keras"))
+
+    return model_path
+
 # 사용자 이미지 불러오기 및 전처리
 def preprocess_image(file_path):
     img = Image.open(file_path).convert('L')  # 흑백 이미지로 변환
