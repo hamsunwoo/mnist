@@ -11,6 +11,6 @@ RUN apt install -y vim
 COPY src/mnist/main.py /code/
 COPY run.sh /code/run.sh
 
-RUN pip install --no-cache-dir --upgrade git+https://github.com/hamsunwoo/mnist.git@0.5.3
+RUN pip install --no-cache-dir --upgrade git+https://github.com/hamsunwoo/mnist.git@0.6.0
 
 CMD ["sh", "run.sh"]

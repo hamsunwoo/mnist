@@ -22,13 +22,13 @@ def get_job_img_task():
 def prediction(file_path, num):
     sql = """UPDATE image_processing
     SET prediction_result=%s,
-        prediction_model='n01',
+        prediction_model='%s',
         prediction_time=%s
     WHERE num=%s
     """
     presult = predict_digit(file_path)
     model = get_model()
-    dml(sql, presult, jigeum.seoul.now(), num)
+    dml(sql, presult, model, jigeum.seoul.now(), num)
     
     return presult
 
@@ -66,5 +66,3 @@ def send_line_noti(file_name, presult):
     response = requests.post(url, data=data, headers=headers)
     print(response.text)
     print("SEND LINE NOTI")
-
-run()
