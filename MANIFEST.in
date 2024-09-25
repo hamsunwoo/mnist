@@ -1,1 +1,1 @@
-recursive-include note *.keras
+recursive-include src *.keras
