@@ -28,7 +28,8 @@ def prediction(file_path, num):
     """
     presult = predict_digit(file_path)
     model = get_model()
-    dml(sql, presult, model, jigeum.seoul.now(), num)
+    model_name = os.path.basename(model)
+    dml(sql, presult, model_name, jigeum.seoul.now(), num)
     
     return presult
 

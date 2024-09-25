@@ -31,6 +31,7 @@ async def create_upload_file(file: UploadFile):
     img = await file.read()
     file_name = file.filename
     file_ext = file.content_type.split('/')[-1]
+    file_label = os.path.splitext(file_name)[0]
     
     upload_dir = os.getenv('UPLOAD_DIR', "/Users/seon-u/code/mnist/img")
     if not os.path.exists(upload_dir):
@@ -47,7 +48,7 @@ async def create_upload_file(file: UploadFile):
 
     import jigeum.seoul
     from mnist.db import dml
-    insert_row = dml(sql, file_name, jigeum.seoul.now(), file_full_path, jigeum.seoul.now(), 'n01')
+    insert_row = dml(sql, file_name, file_label, file_full_path, jigeum.seoul.now(), 'n01')
 
     return {
             "filename": file.filename,
