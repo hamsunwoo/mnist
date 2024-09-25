@@ -2,7 +2,7 @@ import jigeum.seoul
 import requests
 import os
 from mnist.db import select, dml
-from mnist.model import get_model, preprocess_image, predict_digit
+from mnist.model.model import get_model, preprocess_image, predict_digit
 
 def get_job_img_task():
     sql = """
@@ -22,7 +22,7 @@ def get_job_img_task():
 def prediction(file_path, num):
     sql = """UPDATE image_processing
     SET prediction_result=%s,
-        prediction_model='%s',
+        prediction_model=%s,
         prediction_time=%s
     WHERE num=%s
     """
